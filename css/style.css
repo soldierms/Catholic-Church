@@ -279,12 +279,44 @@ img { max-width: 100%; display: block; }
   color: var(--white);
   overflow: hidden;
 }
+/* Cross watermark, echoing the inner page heroes */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -6%;
+  left: 46%;
+  width: 300px;
+  height: 400px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 140'%3E%3Crect x='40' y='0' width='20' height='140' rx='4' fill='%23ffffff'/%3E%3Crect x='0' y='34' width='100' height='20' rx='4' fill='%23ffffff'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 1;
+}
+/* Kente motif along the foot of the hero */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 5px;
+  opacity: 0.75;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--maroon) 0 22px,
+    var(--gold) 22px 44px,
+    var(--forest) 44px 66px,
+    var(--ink) 66px 70px
+  );
+  z-index: 3;
+}
+
 .hero .container {
-  padding-top: 100px;
-  padding-bottom: 76px;
+  padding-top: 112px;
+  padding-bottom: 92px;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
-  gap: 48px;
+  gap: 56px;
   align-items: center;
   position: relative;
   z-index: 2;
@@ -307,11 +339,13 @@ img { max-width: 100%; display: block; }
 }
 .hero h1 {
   color: var(--white);
-  font-size: clamp(2.6rem, 5.6vw, 4.5rem);
+  font-size: clamp(2.9rem, 6.2vw, 5.1rem);
   font-weight: 800;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
-  margin-bottom: 22px;
+  letter-spacing: -0.038em;
+  line-height: 1.02;
+  margin-bottom: 26px;
+  text-wrap: balance;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.25);
 }
 .hero h1 em {
   font-style: normal;
@@ -322,13 +356,37 @@ img { max-width: 100%; display: block; }
   color: var(--gold-light);
 }
 .hero p.lead {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.72);
   font-weight: 400;
-  font-size: 1.16rem;
-  max-width: 50ch;
-  margin-bottom: 32px;
+  font-size: 1.2rem;
+  line-height: 1.7;
+  max-width: 46ch;
+  margin-bottom: 38px;
 }
 .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* ---------- Hero entrance motion ---------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+.hero-copy > *,
+.hero-visual,
+.hero-stats .container {
+  animation: rise 0.9s var(--ease) backwards;
+}
+.hero-copy > .hero-badge { animation-delay: 0.05s; }
+.hero-copy > h1          { animation-delay: 0.14s; }
+.hero-copy > p.lead      { animation-delay: 0.23s; }
+.hero-copy > .hero-actions { animation-delay: 0.32s; }
+.hero-visual             { animation-delay: 0.26s; }
+.hero-stats .container   { animation-delay: 0.44s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy > *,
+  .hero-visual,
+  .hero-stats .container { animation: none; }
+}
 
 .hero-visual {
   position: relative;
@@ -355,6 +413,29 @@ img { max-width: 100%; display: block; }
   width: 32%;
   opacity: 0.95;
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.25));
+}
+
+/* ---------- Photo slots ----------
+   Real photographs drop straight into these. Until an image file exists the
+   <img> is removed by main.js, leaving the motif underneath on show - so a
+   missing photo never renders a broken image. */
+.photo-slot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+}
+.hero-visual .photo-slot { border-radius: 32px; }
+.split-visual .photo-slot { border-radius: 28px; }
+/* Once a real photo is in place, drop the stand-in motif entirely. */
+.has-photo .cross,
+.has-photo .glyph { display: none; }
+/* Gentle scrim so overlaid text and edges stay legible on any photo */
+.hero-visual .photo-slot,
+.split-visual .photo-slot {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
 }
 
 .hero-stats {
@@ -744,6 +825,48 @@ section { padding: 108px 0; }
 .cta-band h3 { color: var(--white); margin-bottom: 6px; font-size: 1.5rem; }
 .cta-band p { color: rgba(255, 255, 255, 0.82); margin-bottom: 0; }
 
+/* ---------- Invitation CTA ---------- */
+.cta-band.invite {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 28px;
+  align-items: center;
+  text-align: left;
+}
+.invite-mark {
+  width: 66px; height: 66px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--maroon-dark);
+  background: linear-gradient(150deg, var(--gold-light), var(--gold));
+  box-shadow: 0 12px 26px -10px rgba(201, 154, 46, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.invite-mark svg { width: 30px; height: 30px; }
+.invite-kicker {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 8px;
+}
+.invite-copy h3 { font-size: 1.65rem; letter-spacing: -0.02em; }
+.invite-copy p { max-width: 54ch; font-size: 0.98rem; }
+.invite-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+
+@media (max-width: 980px) {
+  .cta-band.invite { grid-template-columns: auto 1fr; }
+  .invite-actions { grid-column: 1 / -1; justify-content: flex-start; }
+}
+@media (max-width: 760px) {
+  .cta-band.invite { grid-template-columns: 1fr; text-align: center; }
+  .invite-mark { margin: 0 auto; }
+  .invite-copy p { margin-left: auto; margin-right: auto; }
+  .invite-actions { justify-content: center; }
+}
+
 /* ---------- Footer ---------- */
 .site-footer {
   background: var(--ink);
@@ -941,7 +1064,7 @@ section { padding: 108px 0; }
 }
 
 @media (max-width: 760px) {
-  .nav-links, .nav-cta .btn-outline-dark.hide-mobile { display: none; }
+  .nav-links, .nav-cta .hide-mobile { display: none; }
   .nav-toggle { display: block; }
   .nav.open .nav-links {
     display: flex;

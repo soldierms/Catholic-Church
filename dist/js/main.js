@@ -47,6 +47,22 @@ el.style.transition = "opacity 0.5s ease, transform 0.5s ease";
 io.observe(el);
 });
 }
+document.querySelectorAll("img.photo-slot").forEach(function (img) {
+var frame = img.parentElement;
+function photoLoaded() {
+if (frame) frame.classList.add("has-photo");
+}
+function photoMissing() {
+img.remove();
+}
+if (img.complete) {
+if (img.naturalWidth > 0) photoLoaded();
+else photoMissing();
+return;
+}
+img.addEventListener("load", photoLoaded);
+img.addEventListener("error", photoMissing);
+});
 var yearEl = document.getElementById("year");
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 });

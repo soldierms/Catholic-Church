@@ -55,6 +55,30 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Photo slots: drop a real image at the path in the markup and it shows.
+  // If the file isn't there yet, remove the <img> so the decorative motif
+  // underneath shows through instead of a broken-image icon.
+  document.querySelectorAll("img.photo-slot").forEach(function (img) {
+    var frame = img.parentElement;
+
+    function photoLoaded() {
+      // Hide the decorative motif so it can't sit on top of the photograph.
+      if (frame) frame.classList.add("has-photo");
+    }
+    function photoMissing() {
+      img.remove();
+    }
+
+    // Load or error may already have fired before this script ran.
+    if (img.complete) {
+      if (img.naturalWidth > 0) photoLoaded();
+      else photoMissing();
+      return;
+    }
+    img.addEventListener("load", photoLoaded);
+    img.addEventListener("error", photoMissing);
+  });
+
   // Footer year
   var yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
