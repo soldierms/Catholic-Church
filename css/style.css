@@ -1013,6 +1013,13 @@ section { padding: 100px 0; }
 .text-center { text-align: center; }
 
 /* ---------- Responsive ---------- */
+/* Tighten the nav before it runs out of room (7 links + brand + button) */
+@media (max-width: 1060px) {
+  .nav-links { gap: 19px; }
+  .nav-links a { font-size: 0.88rem; }
+  .brand-text .name { font-size: 0.95rem; }
+}
+
 @media (max-width: 980px) {
   .hero .container { grid-template-columns: 1fr; }
   .hero-visual { max-width: 340px; margin: 0 auto; }
@@ -1026,7 +1033,8 @@ section { padding: 100px 0; }
   .invite-actions { grid-column: 1 / -1; justify-content: flex-start; }
 }
 
-@media (max-width: 760px) {
+/* Hamburger takes over before the 7-link row can overflow */
+@media (max-width: 900px) {
   .nav-links, .nav-cta .hide-mobile { display: none; }
   .nav-toggle { display: block; }
   .nav.open .nav-links {
