@@ -99,6 +99,10 @@ footerIO.unobserve(entry.target);
 footerIO.observe(footerGrid);
 }
 }
+document.querySelectorAll("a.social-slot").forEach(function (link) {
+var href = link.getAttribute("href");
+if (!href || href === "#") link.remove();
+});
 var yearEl = document.getElementById("year");
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 });

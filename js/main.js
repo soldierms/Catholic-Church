@@ -127,6 +127,15 @@ document.addEventListener("DOMContentLoaded", function () {
     // panels in MOTION 2 above.
   }
 
+  // ---- Social handles ----
+  // Any handle still pointing at the "#" placeholder hasn't been supplied
+  // yet, so remove it rather than publish a dead link. Setting a real URL
+  // in the markup is all that's needed to make one appear.
+  document.querySelectorAll("a.social-slot").forEach(function (link) {
+    var href = link.getAttribute("href");
+    if (!href || href === "#") link.remove();
+  });
+
   // Footer year
   var yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
