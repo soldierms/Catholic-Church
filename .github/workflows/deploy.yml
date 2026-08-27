@@ -32,6 +32,11 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        with:
+          # Turn Pages on from the workflow itself, using this job's
+          # pages: write token, so enabling it doesn't require a repo
+          # admin to flip the setting by hand.
+          enablement: true
 
       - name: Upload dist/ as Pages artifact
         uses: actions/upload-pages-artifact@v3
