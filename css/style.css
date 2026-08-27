@@ -185,6 +185,28 @@ img { max-width: 100%; display: block; }
 }
 .btn-outline:hover { background: rgba(255, 255, 255, 0.2); border-color: var(--gold); }
 
+/* Nav CTA — deliberately inverted so it reads as *the* primary action and
+   never blends into the gold buttons and accents used elsewhere.
+   White on the blue bar gives 10.36:1 contrast; gold-on-white or
+   white-on-gold would only reach 1.59:1, well under the 4.5:1 minimum. */
+.btn-visit {
+  background: var(--white);
+  color: var(--blue);
+  border-color: var(--gold);
+  font-weight: 700;
+  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.55), 0 0 0 3px rgba(242, 201, 76, 0.22);
+}
+.btn-visit:hover {
+  background: var(--gold);
+  color: var(--blue-deep);
+  border-color: var(--gold);
+  box-shadow: 0 14px 30px -10px rgba(242, 201, 76, 0.75), 0 0 0 4px rgba(255, 255, 255, 0.3);
+}
+.btn-visit:focus-visible {
+  outline: 3px solid var(--white);
+  outline-offset: 3px;
+}
+
 /* Ghost on light backgrounds */
 .btn-outline-dark {
   background: transparent;
@@ -1289,6 +1311,62 @@ section { padding: 100px 0; }
   .contact-card:hover,
   .reason-chip:hover,
   .gallery-item:hover { transform: none; }
+}
+
+/* ==========================================================================
+   Interaction states
+   ========================================================================== */
+
+/* Keyboard focus — hover states alone leave keyboard users with no feedback */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+.section-blue a:focus-visible,
+.site-header a:focus-visible,
+.site-footer a:focus-visible,
+.page-hero a:focus-visible,
+.hero a:focus-visible {
+  outline-color: var(--white);
+}
+
+/* Brand mark reacts on hover */
+.brand { transition: opacity 0.25s ease; }
+.brand:hover { opacity: 0.88; }
+.brand-mark { transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease); }
+.brand:hover .brand-mark {
+  transform: rotate(-6deg) scale(1.06);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.6), 0 10px 22px -8px rgba(0, 0, 0, 0.6);
+}
+
+/* Map lifts gently, matching the card language */
+.map-wrap { transition: box-shadow 0.4s var(--ease), transform 0.4s var(--ease); }
+.map-wrap:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+
+/* Mass rows highlight as you read down them */
+.mass-row { transition: background 0.3s ease; }
+.mass-row:hover { background: rgba(242, 201, 76, 0.1); }
+
+/* Timeline markers pulse subtly on hover */
+.timeline-item::before { transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease); }
+.timeline-item:hover::before {
+  transform: scale(1.25);
+  box-shadow: 0 0 0 3px var(--gold);
+}
+
+/* Inline text links in body copy get a gold underline on hover */
+.notice a,
+.contact-card .meta + a,
+p a { transition: color 0.2s ease; }
+.notice a:hover { color: var(--blue); }
+
+@media (prefers-reduced-motion: reduce) {
+  .brand:hover .brand-mark,
+  .map-wrap:hover,
+  .timeline-item:hover::before { transform: none; }
+  .brand-mark, .map-wrap, .mass-row, .timeline-item::before { transition: none; }
 }
 
 /* ---------- Utility ---------- */
