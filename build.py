@@ -21,6 +21,7 @@ PAGES = [
     "about.html",
     "worship.html",
     "ministries.html",
+    "events.html",
     "executives.html",
     "gallery.html",
     "contact.html",

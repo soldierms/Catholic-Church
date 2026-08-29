@@ -1345,10 +1345,12 @@ p a { transition: color 0.2s ease; }
 .text-center { text-align: center; }
 
 /* ---------- Responsive ---------- */
-/* Tighten the nav before it runs out of room (7 links + brand + button) */
-@media (max-width: 1060px) {
-  .nav-links { gap: 19px; }
-  .nav-links a { font-size: 0.88rem; }
+/* Tighten the nav before it runs out of room (8 links + brand + button).
+   Measured empirically: content needs ~930-955px at this compression, so
+   the hamburger cutoff below carries real margin, not just a guess. */
+@media (max-width: 1160px) {
+  .nav-links { gap: 16px; }
+  .nav-links a { font-size: 0.84rem; }
   .brand-text .name { font-size: 0.95rem; }
 }
 
@@ -1366,8 +1368,9 @@ p a { transition: color 0.2s ease; }
   .invite-actions { grid-column: 1 / -1; justify-content: flex-start; }
 }
 
-/* Hamburger takes over before the 7-link row can overflow */
-@media (max-width: 900px) {
+/* Hamburger takes over with real margin below the width the 8-link row
+   actually needs (~930-955px measured), not right at the edge of it */
+@media (max-width: 1080px) {
 
   .nav-links, .nav-cta .hide-mobile { display: none; }
   .nav-toggle { display: block; }
