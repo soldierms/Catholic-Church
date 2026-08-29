@@ -60,8 +60,13 @@ def _restore(text, strings):
 
 
 def minify_css(css):
-    css, strings = _protect(css)
+    # Comments must be stripped BEFORE string-protection. An apostrophe
+    # inside a comment (e.g. "isn't") would otherwise be misread by
+    # _protect() as the start of a quoted string, which then only closes
+    # at the next stray quote anywhere later in the file - silently
+    # swallowing every rule in between into one opaque, unprocessed blob.
     css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)      # comments
+    css, strings = _protect(css)
     css = re.sub(r"\s+", " ", css)                        # collapse whitespace
     css = re.sub(r"\s*([{}:;,>])\s*", r"\1", css)         # tighten separators
     css = re.sub(r";}", "}", css)                         # trailing semicolons

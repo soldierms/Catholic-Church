@@ -829,23 +829,12 @@ section { padding: 100px 0; }
 .social-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--glass-shadow-hover);
+  border-top-color: var(--gold-dark);
 }
-.social-icon {
-  width: 46px; height: 46px;
-  flex-shrink: 0;
-  border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  background: var(--blue);
-  color: var(--gold);
-  box-shadow: var(--shadow-blue);
-  transition: background 0.25s ease, color 0.25s ease;
-}
-.social-card:hover .social-icon { background: var(--gold); color: var(--blue); }
-.social-icon svg { width: 21px; height: 21px; }
 .social-meta { display: flex; flex-direction: column; line-height: 1.3; min-width: 0; }
 .social-meta strong {
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: var(--blue);
 }
 .social-meta span {
@@ -855,7 +844,7 @@ section { padding: 100px 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .social-card, .social-icon { transition: none; }
+  .social-card { transition: none; }
   .social-card:hover { transform: none; }
 }
 
@@ -1139,23 +1128,24 @@ section { padding: 100px 0; }
 .footer-grid li a:hover::after { transform: scaleX(1); }
 .footer-brand .name { font-family: var(--font-display); }
 .footer-brand p { color: rgba(255, 255, 255, 0.6); font-size: 0.92rem; max-width: 32ch; }
-.footer-social { display: flex; gap: 10px; margin-top: 16px; }
+.footer-social { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
 .footer-social a {
-  width: 38px; height: 38px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(242, 201, 76, 0.35);
-  display: flex; align-items: center; justify-content: center;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
   transition: background 0.25s ease, color 0.25s ease, transform 0.3s var(--ease);
 }
 .footer-social a:hover {
   background: var(--gold);
   color: var(--blue);
-  transform: translateY(-3px) scale(1.06);
+  transform: translateY(-3px);
   box-shadow: 0 10px 22px -8px rgba(242, 201, 76, 0.75);
   border-color: var(--gold);
 }
-.footer-social svg { width: 17px; height: 17px; }
 
 /* Honour a reduced-motion preference: keep the glass, drop the movement */
 @media (prefers-reduced-motion: reduce) {
