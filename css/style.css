@@ -658,7 +658,7 @@ section { padding: 100px 0; }
 /* ---------- Patron / mission ---------- */
 .patron {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr;
   gap: 30px;
   align-items: center;
   background: var(--glass-bg);
@@ -876,7 +876,7 @@ section { padding: 100px 0; }
   backdrop-filter: blur(var(--glass-blur)) saturate(180%);
   border: 1px solid var(--line-gold);
   border-radius: 999px;
-  padding: 11px 20px 11px 13px;
+  padding: 12px 22px;
   box-shadow: var(--glass-shadow);
   font-weight: 600;
   font-size: 0.92rem;
@@ -914,7 +914,7 @@ section { padding: 100px 0; }
 
 .cta-band.invite {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto;
   gap: 28px;
   align-items: center;
   text-align: left;
@@ -1352,7 +1352,7 @@ p a { transition: color 0.2s ease; }
   .contact-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-  .cta-band.invite { grid-template-columns: auto 1fr; }
+  .cta-band.invite { grid-template-columns: 1fr; }
   .invite-actions { grid-column: 1 / -1; justify-content: flex-start; }
 }
 
