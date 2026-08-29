@@ -218,7 +218,13 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 0;
+  /* Longhand on purpose: this element also carries .container (which sets
+     left/right padding for the edge gutter). A shorthand "padding: 15px 0"
+     here would zero that left/right padding out, pinning the logo and the
+     hamburger flush to the raw viewport edge - most visible on mobile,
+     where nothing else in the row masks it. */
+  padding-top: 15px;
+  padding-bottom: 15px;
   position: relative;
 }
 .brand { display: flex; align-items: center; gap: 12px; }
@@ -284,21 +290,48 @@ img { max-width: 100%; display: block; }
 .nav-links a.active { opacity: 1; }
 
 .nav-cta { display: flex; align-items: center; gap: 14px; }
+/* Raised, tactile 3D button rather than bare lines floating in space */
 .nav-toggle {
   display: none;
-  background: none;
-  border: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(160deg, #ffffff, var(--blue-white));
+  border: 1px solid var(--line);
   cursor: pointer;
   padding: 8px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 1px 2px rgba(20, 33, 61, 0.06),
+    0 3px 8px -2px rgba(20, 33, 61, 0.18);
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+}
+.nav-toggle:hover {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 1px 2px rgba(20, 33, 61, 0.07),
+    0 5px 12px -2px rgba(20, 33, 61, 0.24);
+}
+.nav-toggle:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 1px 2px rgba(20, 33, 61, 0.1) inset,
+    0 1px 2px rgba(20, 33, 61, 0.08);
 }
 .nav-toggle span {
   display: block;
   width: 22px;
-  height: 2px;
+  height: 2.5px;
   border-radius: 2px;
-  background: var(--blue);
+  background: linear-gradient(180deg, var(--blue-light), var(--blue));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
   margin: 5px 0;
   transition: 0.25s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-toggle { transition: none; }
+  .nav-toggle:active { transform: none; }
 }
 
 /* ---------- Hero (soft ivory, calm and light) ---------- */
