@@ -144,6 +144,7 @@ img { max-width: 100%; display: block; }
   font-size: 0.95rem;
   border: 1.5px solid transparent;
   cursor: pointer;
+  white-space: nowrap;
   transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease),
               background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
@@ -272,6 +273,7 @@ img { max-width: 100%; display: block; }
   opacity: 0.75;
   position: relative;
   padding: 6px 0;
+  white-space: nowrap;
   transition: opacity 0.2s ease;
 }
 .nav-links a::after {
