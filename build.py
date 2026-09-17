@@ -130,6 +130,11 @@ def build():
     js_source = open(os.path.join(ROOT, "js", "main.js"), encoding="utf-8").read()
     emit(os.path.join("js", "main.js"), js_source, minify_js(js_source))
 
+    cname_path = os.path.join(ROOT, "CNAME")
+    if os.path.isfile(cname_path):
+        shutil.copy(cname_path, os.path.join(DIST, "CNAME"))
+        print("  %-22s (copied for custom domain)" % "CNAME")
+
     pct = (saved / total * 100) if total else 0
     print("\nDone. dist/ is deploy-ready - %d bytes saved (-%.1f%%)." % (saved, pct))
 
