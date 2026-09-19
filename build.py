@@ -130,6 +130,11 @@ def build():
     js_source = open(os.path.join(ROOT, "js", "main.js"), encoding="utf-8").read()
     emit(os.path.join("js", "main.js"), js_source, minify_js(js_source))
 
+    images_dir = os.path.join(ROOT, "images")
+    if os.path.isdir(images_dir):
+        shutil.copytree(images_dir, os.path.join(DIST, "images"))
+        print("  %-22s (copied)" % "images/")
+
     cname_path = os.path.join(ROOT, "CNAME")
     if os.path.isfile(cname_path):
         shutil.copy(cname_path, os.path.join(DIST, "CNAME"))
