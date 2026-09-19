@@ -104,6 +104,65 @@ document.addEventListener("DOMContentLoaded", function () {
     img.addEventListener("error", photoMissing);
   });
 
+  // ---- Gallery lightbox ----
+  // Any photo tile can be opened larger with a click or Enter/Space.
+  var photoTiles = document.querySelectorAll(".gallery-item.has-photo");
+  if (photoTiles.length) {
+    var lightbox = document.createElement("div");
+    lightbox.className = "lightbox";
+    lightbox.innerHTML =
+      '<button type="button" class="lightbox-close" aria-label="Close">&times;</button>' +
+      '<img alt="">' +
+      '<p class="lightbox-caption"></p>';
+    document.body.appendChild(lightbox);
+
+    var lightboxImg = lightbox.querySelector("img");
+    var lightboxCaption = lightbox.querySelector(".lightbox-caption");
+    var lightboxClose = lightbox.querySelector(".lightbox-close");
+    var lastFocused = null;
+
+    function openLightbox(tile) {
+      var img = tile.querySelector("img");
+      var caption = tile.querySelector("span");
+      if (!img) return;
+      lightboxImg.src = img.currentSrc || img.src;
+      lightboxImg.alt = img.alt || "";
+      lightboxCaption.textContent = caption ? caption.textContent : "";
+      lastFocused = document.activeElement;
+      document.body.classList.add("lightbox-open");
+      lightbox.classList.add("open");
+      lightboxClose.focus();
+    }
+    function closeLightbox() {
+      lightbox.classList.remove("open");
+      document.body.classList.remove("lightbox-open");
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+    }
+
+    photoTiles.forEach(function (tile) {
+      tile.setAttribute("tabindex", "0");
+      tile.setAttribute("role", "button");
+      tile.setAttribute("aria-label", "View larger photo");
+      tile.addEventListener("click", function () {
+        openLightbox(tile);
+      });
+      tile.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openLightbox(tile);
+        }
+      });
+    });
+
+    lightbox.addEventListener("click", function (event) {
+      if (event.target === lightbox) closeLightbox();
+    });
+    lightboxClose.addEventListener("click", closeLightbox);
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && lightbox.classList.contains("open")) closeLightbox();
+    });
+  }
+
   // ---- Footer glass: staggered reveal + pointer-tracked sheen ----
   var footerGrid = document.querySelector(".footer-grid");
   if (footerGrid) {
