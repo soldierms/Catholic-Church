@@ -25,6 +25,7 @@ PAGES = [
     "executives.html",
     "gallery.html",
     "contact.html",
+    "admin.html",
 ]
 
 # ---------------------------------------------------------------------------
@@ -127,8 +128,11 @@ def build():
     css_source = open(os.path.join(ROOT, "css", "style.css"), encoding="utf-8").read()
     emit(os.path.join("css", "style.css"), css_source, minify_css(css_source))
 
-    js_source = open(os.path.join(ROOT, "js", "main.js"), encoding="utf-8").read()
-    emit(os.path.join("js", "main.js"), js_source, minify_js(js_source))
+    for js_file in sorted(os.listdir(os.path.join(ROOT, "js"))):
+        if not js_file.endswith(".js"):
+            continue
+        js_source = open(os.path.join(ROOT, "js", js_file), encoding="utf-8").read()
+        emit(os.path.join("js", js_file), js_source, minify_js(js_source))
 
     images_dir = os.path.join(ROOT, "images")
     if os.path.isdir(images_dir):

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin | Ghanaian Catholic Community of Chicago</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<header class="site-header">
+<div class="container nav" id="nav">
+<a href="index.html" class="brand">
+<span class="brand-mark"><span>GCC</span></span>
+<span class="brand-text">
+<span class="name">Ghanaian Catholic Community</span>
+<span class="sub">of Chicago</span>
+</span>
+</a>
+<div class="nav-cta">
+<a href="index.html" class="btn btn-outline-dark">Back to Site</a>
+</div>
+</div>
+</header>
+<section class="page-hero">
+<div class="container">
+<span class="hero-badge">Staff Only</span>
+<h1>Admin</h1>
+<p>Manage the events and gallery photos shown on the public site.</p>
+</div>
+</section>
+<section class="section-light">
+<div class="container">
+<div id="login-view" class="admin-panel">
+<h2>Sign In</h2>
+<form id="login-form" class="admin-form">
+<label>Email
+<input type="email" id="login-email" required autocomplete="username">
+</label>
+<label>Password
+<input type="password" id="login-password" required autocomplete="current-password">
+</label>
+<button type="submit" class="btn btn-primary">Sign In</button>
+<p class="admin-error" id="login-error" hidden></p>
+</form>
+</div>
+<div id="dashboard-view" hidden>
+<div class="admin-topbar">
+<span id="admin-user-email"></span>
+<button type="button" class="btn btn-outline-dark" id="logout-btn">Log Out</button>
+</div>
+<div class="admin-tabs">
+<button type="button" class="admin-tab active" data-tab="events">Events</button>
+<button type="button" class="admin-tab" data-tab="gallery">Gallery</button>
+</div>
+<div class="admin-tab-panel" id="tab-events">
+<div class="admin-panel">
+<h3>Add an Event</h3>
+<form id="event-form" class="admin-form">
+<label>Title
+<input type="text" id="event-title" required>
+</label>
+<label>Date
+<input type="date" id="event-date" required>
+</label>
+<label>Time (optional)
+<input type="text" id="event-time" placeholder="e.g. 2:00 PM">
+</label>
+<label>Location (optional)
+<input type="text" id="event-location" placeholder="e.g. Parish Hall">
+</label>
+<label>Description (optional)
+<textarea id="event-description" rows="3"></textarea>
+</label>
+<button type="submit" class="btn btn-primary">Add Event</button>
+<p class="admin-error" id="event-error" hidden></p>
+</form>
+</div>
+<div class="admin-panel">
+<h3>Current Events</h3>
+<div id="events-admin-list" class="admin-list"></div>
+<p id="events-admin-empty" class="admin-empty">No events yet.</p>
+</div>
+</div>
+<div class="admin-tab-panel" id="tab-gallery" hidden>
+<div class="admin-panel">
+<h3>Add a Photo</h3>
+<form id="photo-form" class="admin-form">
+<label>Photo
+<input type="file" id="photo-file" accept="image/*" required>
+</label>
+<label>Caption
+<input type="text" id="photo-caption" required placeholder="e.g. Christmas Celebration 2025">
+</label>
+<button type="submit" class="btn btn-primary">Upload Photo</button>
+<p class="admin-error" id="photo-error" hidden></p>
+</form>
+</div>
+<div class="admin-panel">
+<h3>Current Photos</h3>
+<div id="gallery-admin-list" class="admin-list"></div>
+<p id="gallery-admin-empty" class="admin-empty">No photos yet.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

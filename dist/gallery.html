@@ -47,20 +47,8 @@
 </section>
 <section class="section-light">
 <div class="container">
-<div class="gallery-grid">
-<div class="gallery-item has-photo">
-<img src="images/gallery/national-laity-conference-2025.jpg" alt="Community members at the National Laity Conference in Cincinnati, Ohio, August 2025" loading="lazy">
-<span>National Laity Conference · Cincinnati, OH — Aug 2025</span>
-</div>
-<div class="gallery-item g2"><span>Choir &amp; Drumming</span></div>
-<div class="gallery-item g3"><span>Christmas Celebration</span></div>
-<div class="gallery-item g4"><span>Community Fellowship</span></div>
-<div class="gallery-item g5"><span>Charismatic Renewal</span></div>
-<div class="gallery-item g6"><span>Cultural Day</span></div>
-<div class="gallery-item g7"><span>Youth Group</span></div>
-<div class="gallery-item g8"><span>Feast Day</span></div>
-</div>
-<div class="notice" style="margin-top:40px;">
+<div class="gallery-grid" id="gallery-dynamic" hidden></div>
+<div class="notice" id="gallery-empty">
 <p><strong>Photos coming soon.</strong> We're gathering photos from our community celebrations — visit our <a href="https://www.facebook.com/BMGchurch/" target="_blank" rel="noopener" style="color:var(--maroon);font-weight:600;">Facebook page</a> to see recent pictures and videos, and check back here as we update this gallery.</p>
 </div>
 </div>
@@ -114,6 +102,9 @@
 </div>
 </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/site-data.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

@@ -105,9 +105,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // ---- Gallery lightbox ----
-  // Any photo tile can be opened larger with a click or Enter/Space.
-  var photoTiles = document.querySelectorAll(".gallery-item.has-photo");
-  if (photoTiles.length) {
+  // Any photo tile can be opened larger with a click or Enter/Space. Wiring
+  // is exposed as GCCWireGalleryTiles() so site-data.js can call it again
+  // after it injects tiles fetched from the database.
+  if (document.querySelector(".gallery-grid")) {
     var lightbox = document.createElement("div");
     lightbox.className = "lightbox";
     lightbox.innerHTML =
@@ -139,20 +140,26 @@ document.addEventListener("DOMContentLoaded", function () {
       if (lastFocused && lastFocused.focus) lastFocused.focus();
     }
 
-    photoTiles.forEach(function (tile) {
-      tile.setAttribute("tabindex", "0");
-      tile.setAttribute("role", "button");
-      tile.setAttribute("aria-label", "View larger photo");
-      tile.addEventListener("click", function () {
-        openLightbox(tile);
-      });
-      tile.addEventListener("keydown", function (event) {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          openLightbox(tile);
-        }
-      });
-    });
+    window.GCCWireGalleryTiles = function () {
+      document
+        .querySelectorAll(".gallery-item.has-photo:not([data-lightbox-wired])")
+        .forEach(function (tile) {
+          tile.setAttribute("data-lightbox-wired", "true");
+          tile.setAttribute("tabindex", "0");
+          tile.setAttribute("role", "button");
+          tile.setAttribute("aria-label", "View larger photo");
+          tile.addEventListener("click", function () {
+            openLightbox(tile);
+          });
+          tile.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              openLightbox(tile);
+            }
+          });
+        });
+    };
+    window.GCCWireGalleryTiles();
 
     lightbox.addEventListener("click", function (event) {
       if (event.target === lightbox) closeLightbox();

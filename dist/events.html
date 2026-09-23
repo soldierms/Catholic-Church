@@ -50,10 +50,11 @@
 <div class="container">
 <div class="section-head center">
 <span class="eyebrow" style="justify-content:center;display:flex;">What's Ahead</span>
-<h2>Nothing scheduled just yet</h2>
-<p class="accent-text">We're putting this calendar together. Once dates are confirmed, upcoming events will be listed here — check back soon.</p>
+<h2>Upcoming Events</h2>
+<p class="accent-text">Feast days, celebrations and gatherings from our community life.</p>
 </div>
-<div class="notice">
+<div class="grid-3" id="events-list" hidden></div>
+<div class="notice" id="events-empty">
 <p><strong>No events are posted yet.</strong> For anything happening in the meantime, follow our <a href="https://www.facebook.com/BMGchurch/" target="_blank" rel="noopener" style="color:var(--gold-dark);font-weight:600;">Facebook page</a> or call the parish office at <a href="tel:+13127331068" style="color:var(--gold-dark);font-weight:600;">312-733-1068</a>.</p>
 </div>
 </div>
@@ -121,6 +122,9 @@
 </div>
 </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/site-data.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
