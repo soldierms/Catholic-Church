@@ -1085,7 +1085,13 @@ section { padding: 100px 0; }
   max-height: 78vh;
   border-radius: 10px;
   box-shadow: var(--shadow-md);
+  cursor: zoom-in;
+  touch-action: none;
+  transition: transform 0.15s ease-out;
+  user-select: none;
+  -webkit-user-drag: none;
 }
+.lightbox img.panning { transition: none; }
 .lightbox-caption {
   color: var(--blue-white);
   font-family: var(--font-body);
