@@ -1313,15 +1313,18 @@ body.lightbox-open { overflow: hidden; }
 .footer-brand p { color: rgba(255, 255, 255, 0.6); font-size: 0.92rem; max-width: 32ch; }
 .footer-social { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
 .footer-social a {
-  padding: 7px 16px;
-  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(242, 201, 76, 0.35);
-  font-size: 0.84rem;
-  font-weight: 600;
   color: rgba(255, 255, 255, 0.85);
   transition: background 0.25s ease, color 0.25s ease, transform 0.3s var(--ease);
 }
+.footer-social a svg { width: 17px; height: 17px; fill: currentColor; }
 .footer-social a:hover {
   background: var(--gold);
   color: var(--blue);
