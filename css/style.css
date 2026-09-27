@@ -592,6 +592,20 @@ section { padding: 100px 0; }
 }
 .split-visual .glyph svg { width: 42%; opacity: 0.95; }
 
+/* Ghana's flag - red, gold, green bands with the black star - scoped to
+   this one instance so it doesn't repaint the About page's cross card,
+   which shares the same .split-visual/.glyph markup. */
+.split-visual.ghana-flag {
+  background: linear-gradient(
+    to bottom,
+    #ce1126 0%, #ce1126 33.33%,
+    #fcd116 33.33%, #fcd116 66.66%,
+    #006b3f 66.66%, #006b3f 100%
+  );
+  border-color: var(--blue-deep);
+}
+.split-visual.ghana-flag .glyph svg { width: 30%; }
+
 .timeline { margin-top: 10px; }
 .timeline-item {
   display: flex;
@@ -1535,7 +1549,11 @@ p a { transition: color 0.2s ease; }
   .hero .container { grid-template-columns: 1fr; }
   .hero-visual { max-width: 340px; margin: 0 auto; }
   .split { grid-template-columns: 1fr; }
-  .split-visual { max-width: 380px; margin: 0 auto; order: -1; }
+  /* width:100% is required alongside max-width: with no in-flow content
+     (the photo-slot removes itself when there's no real photo yet, and the
+     glyph icon is absolutely positioned), margin:auto centering falls back
+     to shrink-to-fit sizing, which collapses an empty box to ~0 width. */
+  .split-visual { width: 100%; max-width: 380px; margin: 0 auto; order: -1; }
   .grid-3 { grid-template-columns: 1fr 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
