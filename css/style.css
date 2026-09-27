@@ -216,6 +216,12 @@ img { max-width: 100%; display: block; }
   border-bottom: 1px solid var(--line);
 }
 .nav {
+  /* Wider than the site's normal --container: 8 nav links + logo + button
+     need real breathing room, not a razor-thin fit against the same cap
+     everything else uses. Fitting them into 1180px left ~0px to spare,
+     which broke differently across browsers (scrollbar width, font
+     metrics, zoom) even after trimming gaps and padding repeatedly. */
+  max-width: 1360px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1513,13 +1519,14 @@ p a { transition: color 0.2s ease; }
 
 /* ---------- Responsive ---------- */
 /* Tighten the nav before it runs out of room (8 links + brand + button).
-   The container hits its own max-width above ~1130px of usable space, so
-   the "wide" default above has to fit inside that fixed budget with a real
-   margin, not just at the edge of it - font-loading swaps (serif brand
-   name) make the true width larger than it first measures. Below this
-   breakpoint the container shrinks with the viewport, so it tightens
-   further still until the hamburger takes over. */
-@media (max-width: 1180px) {
+   Kept deliberately wide (well past where .nav's own max-width of 1360px
+   would otherwise still be scaling down with the viewport) so the "wide"
+   default tier only ever has to run where there's real margin - a classic
+   (non-overlay) scrollbar can eat ~15-17px of layout width on its own,
+   which previously ate right through a thin single-digit-pixel margin.
+   Below this breakpoint the container shrinks with the viewport, so it
+   tightens further still until the hamburger takes over. */
+@media (max-width: 1320px) {
   .nav-links { gap: 8px; }
   .nav-links a { font-size: 0.72rem; }
   .brand-text .name { font-size: 0.92rem; }
