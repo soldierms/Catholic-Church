@@ -280,6 +280,20 @@ img { max-width: 100%; display: block; }
   white-space: nowrap;
   transition: opacity 0.2s ease;
 }
+/* A quiet dot in the gap between items - without it, adjacent links in the
+   same weight/case read as one run-on phrase ("OUR STORY WORSHIP & MASS")
+   rather than as separate items. */
+.nav-links a:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--line-gold);
+}
 .nav-links a::after {
   content: "";
   position: absolute;
