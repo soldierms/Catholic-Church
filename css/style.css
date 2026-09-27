@@ -263,7 +263,7 @@ img { max-width: 100%; display: block; }
   font-weight: 600;
 }
 
-.nav-links { display: flex; align-items: center; gap: 26px; }
+.nav-links { display: flex; align-items: center; gap: 12px; }
 .nav-links a {
   font-weight: 600;
   font-size: 0.78rem;
@@ -292,6 +292,7 @@ img { max-width: 100%; display: block; }
 .nav-links a.active { opacity: 1; }
 
 .nav-cta { display: flex; align-items: center; gap: 14px; }
+.nav-cta .btn-visit { padding: 12px 20px; }
 /* Raised, tactile 3D button rather than bare lines floating in space */
 .nav-toggle {
   display: none;
@@ -347,7 +348,7 @@ img { max-width: 100%; display: block; }
 }
 
 .hero .container {
-  padding-top: 100px;
+  padding-top: 48px;
   padding-bottom: 80px;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -1512,12 +1513,17 @@ p a { transition: color 0.2s ease; }
 
 /* ---------- Responsive ---------- */
 /* Tighten the nav before it runs out of room (8 links + brand + button).
-   Measured empirically: content needs ~930-955px at this compression, so
-   the hamburger cutoff below carries real margin, not just a guess. */
-@media (max-width: 1160px) {
-  .nav-links { gap: 16px; }
-  .nav-links a { font-size: 0.84rem; }
-  .brand-text .name { font-size: 0.95rem; }
+   The container hits its own max-width above ~1130px of usable space, so
+   the "wide" default above has to fit inside that fixed budget with a real
+   margin, not just at the edge of it - font-loading swaps (serif brand
+   name) make the true width larger than it first measures. Below this
+   breakpoint the container shrinks with the viewport, so it tightens
+   further still until the hamburger takes over. */
+@media (max-width: 1180px) {
+  .nav-links { gap: 8px; }
+  .nav-links a { font-size: 0.72rem; }
+  .brand-text .name { font-size: 0.92rem; }
+  .nav-cta .btn-visit { padding: 10px 16px; font-size: 0.86rem; }
 }
 
 @media (max-width: 980px) {
