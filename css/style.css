@@ -257,7 +257,7 @@ img { max-width: 100%; display: block; }
 .brand-text .name {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.04rem;
+  font-size: 1.16rem;
   color: var(--blue);
   display: block;
 }
@@ -272,7 +272,7 @@ img { max-width: 100%; display: block; }
 .nav-links { display: flex; align-items: center; gap: 12px; }
 .nav-links a {
   font-weight: 600;
-  font-size: 0.86rem;
+  font-size: 0.96rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--blue);
@@ -1527,10 +1527,11 @@ p a { transition: color 0.2s ease; }
    Below this breakpoint the container shrinks with the viewport, so it
    tightens further still until the hamburger takes over. */
 @media (max-width: 1320px) {
-  .nav-links { gap: 6px; }
-  .nav-links a { font-size: 0.8rem; }
-  .brand-text .name { font-size: 0.98rem; }
-  .nav-cta .btn-visit { padding: 10px 16px; font-size: 0.9rem; }
+  .nav-links { gap: 4px; }
+  .nav-links a { font-size: 0.88rem; }
+  .brand-text .name { font-size: 1.02rem; }
+  .nav-cta .btn-visit { padding: 8px 14px; font-size: 0.92rem; }
+  .nav-cta { gap: 8px; }
 }
 
 @media (max-width: 980px) {
@@ -1548,8 +1549,8 @@ p a { transition: color 0.2s ease; }
 }
 
 /* Hamburger takes over with real margin below the width the 8-link row
-   actually needs (~930-955px measured), not right at the edge of it */
-@media (max-width: 1080px) {
+   actually needs, not right at the edge of it */
+@media (max-width: 1140px) {
 
   .nav-links, .nav-cta .hide-mobile { display: none; }
   .nav-toggle { display: block; }
