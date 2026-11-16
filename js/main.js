@@ -16,14 +16,57 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Mark current page link as active
+  // Mark the current page: its own top-level link, or - for a page that
+  // only appears in a dropdown - that entry and the parent it sits under.
   var path = window.location.pathname.split("/").pop() || "index.html";
-  document.querySelectorAll(".nav-links a").forEach(function (link) {
-    var href = link.getAttribute("href");
-    if (href === path || (path === "" && href === "index.html")) {
-      link.classList.add("active");
-    }
+  document.querySelectorAll(".nav-link").forEach(function (link) {
+    if (link.getAttribute("href") === path) link.classList.add("active");
   });
+  document.querySelectorAll(".nav-dropdown a").forEach(function (link) {
+    if (link.getAttribute("href") !== path) return;
+    link.classList.add("active");
+    var parent = link.closest(".nav-item").querySelector(".nav-link");
+    if (parent) parent.classList.add("active");
+  });
+
+  // Dropdowns open on hover and keyboard focus through CSS alone. A touch
+  // screen wide enough for the desktop nav has neither, so there the first
+  // tap on a parent opens its menu and the second follows the link.
+  var dropdownItems = document.querySelectorAll(".nav-item.has-dropdown");
+  function closeDropdowns(except) {
+    dropdownItems.forEach(function (item) {
+      if (item !== except) item.classList.remove("open");
+    });
+  }
+  dropdownItems.forEach(function (item) {
+    item.querySelector(".nav-link").addEventListener("click", function (event) {
+      var desktopNav = !toggle || window.getComputedStyle(toggle).display === "none";
+      var touchOnly = window.matchMedia("(hover: none)").matches;
+      if (!desktopNav || !touchOnly || item.classList.contains("open")) return;
+      event.preventDefault();
+      closeDropdowns(item);
+      item.classList.add("open");
+    });
+  });
+  document.addEventListener("click", function (event) {
+    if (!event.target.closest(".nav-item.has-dropdown")) closeDropdowns();
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key !== "Escape") return;
+    closeDropdowns();
+    var focused = document.activeElement;
+    if (focused && focused.closest && focused.closest(".nav-item.has-dropdown")) focused.blur();
+  });
+
+  // Give the glass bar a soft shadow once the page has scrolled under it
+  var header = document.querySelector(".site-header");
+  if (header) {
+    var setScrolled = function () {
+      header.classList.toggle("scrolled", window.scrollY > 8);
+    };
+    setScrolled();
+    window.addEventListener("scroll", setScrolled, { passive: true });
+  }
 
   // ---- MOTION 1: staggered scroll reveal ----
   // Items cascade in based on their position within their own group. The

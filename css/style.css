@@ -55,6 +55,10 @@
 
 * { box-sizing: border-box; }
 
+/* Keeps in-page targets (dropdown links like #mission) clear of the
+   sticky header instead of landing underneath it. */
+html { scroll-padding-top: 96px; }
+
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -210,10 +214,28 @@ img { max-width: 100%; display: block; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(250, 246, 236, 0.86);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
-  backdrop-filter: blur(18px) saturate(160%);
-  border-bottom: 1px solid var(--line);
+}
+/* The glass lives on a pseudo-element, not the header itself: an element
+   with backdrop-filter becomes the backdrop for its descendants, so the
+   dropdown panels (which hang below the bar, over the page) would have
+   nothing but the bar to blur. */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(250, 246, 236, 0.72);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid rgba(20, 33, 61, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.site-header.scrolled::before {
+  background: rgba(250, 246, 236, 0.84);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    0 12px 32px -20px rgba(20, 33, 61, 0.3);
 }
 .nav {
   /* Wider than the site's normal --container: 8 nav links + logo + button
@@ -267,47 +289,120 @@ img { max-width: 100%; display: block; }
   font-weight: 600;
 }
 
-.nav-links { display: flex; align-items: center; gap: 22px; }
-.nav-links a {
+/* Each top-level link is its own pill, so items read as separate targets
+   from their padding alone - no dividers needed between them. */
+.nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-item { position: relative; }
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 15px;
+  border-radius: 999px;
   font-weight: 600;
-  font-size: 0.82rem;
-  letter-spacing: 0.05em;
+  font-size: 0.94rem;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--blue);
-  opacity: 0.75;
-  position: relative;
-  padding: 6px 0;
   white-space: nowrap;
-  transition: opacity 0.2s ease;
+  color: rgba(20, 33, 61, 0.72);
+  transition: color 0.2s ease, background 0.25s ease, box-shadow 0.25s ease;
 }
-/* A quiet dot in the gap between items - without it, adjacent links in the
-   same weight/case read as one run-on phrase ("OUR STORY WORSHIP & MASS")
-   rather than as separate items. */
-.nav-links a:not(:first-child)::before {
+.nav-link:hover,
+.nav-item:hover > .nav-link,
+.nav-item:focus-within > .nav-link,
+.nav-item.open > .nav-link {
+  color: var(--blue);
+  background: rgba(20, 33, 61, 0.055);
+}
+.nav-link:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+.nav-link.active,
+.nav-item:hover > .nav-link.active,
+.nav-item:focus-within > .nav-link.active {
+  color: var(--blue);
+  background: #fffdf8;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 0 0 1px rgba(20, 33, 61, 0.05),
+    0 6px 16px -8px rgba(20, 33, 61, 0.28);
+}
+.has-dropdown > .nav-link::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.6;
+  transition: transform 0.25s var(--ease), margin 0.25s var(--ease);
+}
+.has-dropdown:hover > .nav-link::after,
+.has-dropdown:focus-within > .nav-link::after,
+.has-dropdown.open > .nav-link::after {
+  transform: rotate(225deg);
+  margin-top: 3px;
+}
+
+/* Second-level menu: a floating glass panel */
+.nav-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  min-width: 216px;
+  padding: 8px;
+  border-radius: 18px;
+  background: rgba(255, 253, 248, 0.66);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 0 0 1px rgba(20, 33, 61, 0.05),
+    0 28px 56px -28px rgba(20, 33, 61, 0.42),
+    0 4px 12px -4px rgba(20, 33, 61, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 6px) scale(0.98);
+  transform-origin: top center;
+  transition: opacity 0.2s ease, transform 0.25s var(--ease), visibility 0s linear 0.2s;
+}
+/* Bridges the gap between link and panel so the pointer can cross it */
+.nav-dropdown::before {
   content: "";
   position: absolute;
-  left: -12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: var(--line-gold);
+  left: 0;
+  right: 0;
+  top: -12px;
+  height: 12px;
 }
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  left: 0; bottom: 0;
-  width: 0;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--gold);
-  transition: width 0.25s var(--ease);
+.nav-item:hover > .nav-dropdown,
+.nav-item:focus-within > .nav-dropdown,
+.nav-item.open > .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0) scale(1);
+  transition-delay: 0s;
 }
-.nav-links a:hover { opacity: 1; }
-.nav-links a:hover::after,
-.nav-links a.active::after { width: 100%; }
-.nav-links a.active { opacity: 1; }
+.nav-dropdown a {
+  display: block;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--slate);
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.nav-dropdown a:hover,
+.nav-dropdown a:focus-visible {
+  background: rgba(20, 33, 61, 0.06);
+  color: var(--blue);
+  outline: none;
+}
+.nav-dropdown a.active { color: var(--blue); font-weight: 600; }
 
 .nav-cta { display: flex; align-items: center; gap: 16px; }
 .nav-cta .btn-visit { padding: 13px 26px; font-size: 0.9rem; }
@@ -351,6 +446,7 @@ img { max-width: 100%; display: block; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .nav-link, .nav-dropdown, .has-dropdown > .nav-link::after, .site-header::before { transition: none; }
   .nav-toggle { transition: none; }
   .nav-toggle:active { transform: none; }
 }
@@ -1562,31 +1658,70 @@ p a { transition: color 0.2s ease; }
   .invite-actions { grid-column: 1 / -1; justify-content: flex-start; }
 }
 
-/* Hamburger takes over with real margin below the width the 8-link row
-   actually needs - kept generously above where .nav's own max-width would
-   otherwise still be scaling down, so the single desktop nav style above
-   only ever has to run where there's genuine room to breathe. A classic
-   (non-overlay) scrollbar alone can eat ~15-17px of layout width, which
-   ate right through single-digit-pixel margins in earlier, tighter passes. */
-@media (max-width: 1300px) {
+/* One compact step for laptop widths, so a 1280px screen keeps the full
+   nav rather than dropping to the hamburger. Measured: the full-size row
+   needs 1211px and this one 1084px, against (viewport - 48px) available. */
+@media (min-width: 1201px) and (max-width: 1340px) {
+  .nav-link { font-size: 0.875rem; padding: 8px 11px; }
+  .brand-text .name { font-size: 1.12rem; }
+  .nav-cta .btn-visit { padding: 11px 20px; }
+}
+
+/* Hamburger takes over while the full row still has real room to spare. A
+   classic (non-overlay) scrollbar alone can eat ~15-17px of layout width,
+   so "fits with a few pixels left" is not a fit. */
+@media (max-width: 1200px) {
 
   .nav-links, .nav-cta .hide-mobile { display: none; }
   .nav-toggle { display: block; }
   .nav.open .nav-links {
     display: flex;
     position: absolute;
-    top: calc(100% + 1px); left: 0; right: 0;
-    background: rgba(250, 246, 236, 0.98);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
-    backdrop-filter: blur(24px) saturate(160%);
+    top: 100%; left: 0; right: 0;
+    max-height: calc(100vh - 90px);
+    max-height: calc(100dvh - 90px);
+    overflow-y: auto;
+    background: rgba(250, 246, 236, 0.88);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    backdrop-filter: blur(28px) saturate(180%);
     flex-direction: column;
-    align-items: flex-start;
-    padding: 22px 24px 28px;
-    border-bottom: 2px solid var(--gold);
-    border-radius: 0 0 20px 20px;
+    align-items: stretch;
+    padding: 12px 14px 20px;
+    border-bottom: 1px solid var(--line-gold);
+    border-radius: 0 0 22px 22px;
     box-shadow: var(--shadow-md);
-    gap: 16px;
+    gap: 2px;
   }
+  .nav-link { padding: 11px 14px; border-radius: 14px; }
+  .has-dropdown > .nav-link::after { display: none; }
+  /* In the stacked menu the second level is simply listed, indented, under
+     its parent - there is no hover on a phone to reveal it with. */
+  .nav-item > .nav-dropdown,
+  .nav-item:hover > .nav-dropdown,
+  .nav-item:focus-within > .nav-dropdown,
+  .nav-item.open > .nav-dropdown {
+    position: static;
+    min-width: 0;
+    padding: 0 0 6px 14px;
+    background: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: none;
+  }
+  .nav-dropdown::before { display: none; }
+  .nav-dropdown a { padding: 6px 14px; font-size: 0.9rem; color: var(--slate-soft); }
+}
+
+/* Phone layout. This used to share a media query with the hamburger menu,
+   so every time the hamburger cutoff moved up to make room for the nav,
+   single-column cards and a stacked footer came with it - on laptops. */
+@media (max-width: 760px) {
   .hero-stats { margin-top: -30px; }
   .hero-stats .container { grid-template-columns: 1fr; text-align: center; gap: 14px; padding: 24px; }
   section { padding: 64px 0; }
