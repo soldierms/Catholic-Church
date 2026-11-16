@@ -1802,9 +1802,9 @@ section { position: relative; }
   .nav.open .nav-links {
     display: flex;
     position: absolute;
-    top: 100%; left: 0; right: 0;
-    max-height: calc(100vh - 90px);
-    max-height: calc(100dvh - 90px);
+    top: calc(100% + 8px); left: 0; right: 0;
+    max-height: calc(100vh - 116px);
+    max-height: calc(100dvh - 116px);
     overflow-y: auto;
     background: rgba(250, 246, 236, 0.88);
     -webkit-backdrop-filter: blur(28px) saturate(180%);
@@ -1812,8 +1812,8 @@ section { position: relative; }
     flex-direction: column;
     align-items: stretch;
     padding: 12px 14px 20px;
-    border-bottom: 1px solid var(--line-gold);
-    border-radius: 0 0 22px 22px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 22px;
     box-shadow: var(--shadow-md);
     gap: 2px;
   }
@@ -1879,4 +1879,150 @@ section { position: relative; }
     gap: 8px;
     padding: 20px 0 26px;
   }
+}
+
+/* ==========================================================================
+   Floating nav + photographic hero
+   ========================================================================== */
+
+/* The bar floats clear of the edges as its own glass object; heroes run
+   underneath it rather than starting below it. */
+:root { --header-space: 96px; }
+.site-header {
+  top: 12px;
+  width: calc(100% - 28px);
+  max-width: 1440px;
+  margin: 12px auto 0;
+}
+.site-header::before {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: rgba(250, 246, 236, 0.78);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 0 0 1px rgba(20, 33, 61, 0.06),
+    0 18px 40px -22px rgba(11, 21, 38, 0.5);
+}
+.site-header.scrolled::before {
+  background: rgba(250, 246, 236, 0.9);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 0 0 1px rgba(20, 33, 61, 0.07),
+    0 24px 48px -22px rgba(11, 21, 38, 0.6);
+}
+.hero,
+.page-hero { margin-top: calc(-1 * var(--header-space)); }
+.page-hero { padding-top: calc(88px + var(--header-space)); }
+
+/* Hero: navy stage, photograph bleeding off the right edge, copy on the left */
+.hero {
+  isolation: isolate;
+  color: var(--white);
+  background: linear-gradient(160deg, var(--blue) 0%, var(--blue-deep) 70%);
+}
+.hero-media {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 62%;
+  z-index: -2;
+  overflow: hidden;
+  /* Dissolves the photograph's left edge into the navy - a hard start
+     reads as a seam against the gradient behind it. */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 46%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 46%);
+}
+.hero-media .photo-slot {
+  object-position: center 28%;
+  animation: hero-zoom 26s ease-in-out infinite alternate;
+}
+/* Fades the photograph into the navy on the copy side and grounds the base */
+.hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background:
+    linear-gradient(90deg, rgba(11, 21, 38, 0.6) 0%, rgba(11, 21, 38, 0.22) 55%, rgba(11, 21, 38, 0.38) 100%),
+    linear-gradient(180deg, rgba(11, 21, 38, 0.55) 0%, transparent 28%, transparent 62%, rgba(11, 21, 38, 0.85) 100%);
+}
+/* Soft gold light behind the copy, drifting slowly */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -12%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(34% 44% at 16% 34%, rgba(198, 161, 91, 0.34), transparent 70%),
+    radial-gradient(26% 34% at 46% 96%, rgba(198, 161, 91, 0.22), transparent 70%),
+    radial-gradient(30% 40% at 2% 100%, rgba(74, 98, 160, 0.35), transparent 70%);
+  animation: glow-drift 20s ease-in-out infinite alternate;
+}
+@keyframes hero-zoom {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+@keyframes glow-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(3%, -3%, 0) scale(1.08); }
+}
+.hero .container {
+  display: block;
+  padding-top: calc(44px + var(--header-space));
+  padding-bottom: 150px;
+}
+.hero-copy { max-width: 780px; }
+.hero-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+}
+.script-lead {
+  color: var(--gold-soft);
+  font-size: clamp(3rem, 5.6vw, 4.8rem);
+  margin-bottom: 2px;
+}
+.hero h1 {
+  color: var(--white);
+  font-size: clamp(2.6rem, 5.4vw, 4.6rem);
+  line-height: 1.04;
+  letter-spacing: -0.022em;
+  max-width: 18ch;
+  margin-bottom: 22px;
+  text-shadow: 0 2px 30px rgba(11, 21, 38, 0.55);
+}
+.hero-rule { width: 84px; background: linear-gradient(90deg, var(--gold), var(--gold-soft)); }
+.hero p.lead {
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 1.14rem;
+  max-width: 46ch;
+}
+
+/* Statistics card overlaps the hero's lower edge, set off to the right */
+.hero-stats { margin-top: -96px; }
+.hero-stats .container {
+  width: auto;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: max(24px, calc((100vw - var(--container)) / 2));
+}
+
+@media (max-width: 980px) {
+  .hero-media { width: 100%; -webkit-mask-image: none; mask-image: none; }
+  .hero-media::after {
+    background: linear-gradient(180deg, rgba(11, 21, 38, 0.82) 0%, rgba(11, 21, 38, 0.7) 45%, rgba(11, 21, 38, 0.94) 100%);
+  }
+}
+@media (max-width: 760px) {
+  .site-header { top: 8px; width: calc(100% - 16px); margin-top: 8px; }
+  .hero .container { padding-top: calc(48px + var(--header-space)); padding-bottom: 110px; }
+  .hero-stats { margin-top: -64px; }
+  .hero-stats .container { margin-left: 16px; margin-right: 16px; max-width: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-media .photo-slot, .hero::before { animation: none; }
 }
