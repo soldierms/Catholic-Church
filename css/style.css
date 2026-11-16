@@ -39,18 +39,21 @@
   --glass-bg-strong: rgba(255, 255, 255, 0.74);
   --glass-border: rgba(255, 255, 255, 0.7);
   --glass-blur: 22px;
-  --glass-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    0 18px 40px -26px rgba(20, 33, 61, 0.32),
-    0 2px 8px -4px rgba(20, 33, 61, 0.06);
-  --glass-shadow-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    0 26px 54px -26px rgba(20, 33, 61, 0.38);
+  --glass-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 2px rgba(20, 33, 61, 0.05),
+    0 10px 20px -12px rgba(20, 33, 61, 0.18),
+    0 30px 60px -32px rgba(20, 33, 61, 0.34);
+  --glass-shadow-hover: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 2px 4px rgba(20, 33, 61, 0.06),
+    0 18px 30px -14px rgba(20, 33, 61, 0.24),
+    0 46px 80px -34px rgba(20, 33, 61, 0.44);
 
-  --shadow-sm: 0 1px 2px rgba(20, 33, 61, 0.03), 0 6px 18px -14px rgba(20, 33, 61, 0.18);
-  --shadow-md: 0 18px 44px -26px rgba(20, 33, 61, 0.26), 0 3px 12px -6px rgba(20, 33, 61, 0.08);
-  --shadow-blue: 0 10px 22px -12px rgba(20, 33, 61, 0.4);
-  --shadow-gold: 0 10px 22px -12px rgba(198, 161, 91, 0.45);
+  --shadow-sm: 0 1px 2px rgba(20, 33, 61, 0.06), 0 8px 18px -10px rgba(20, 33, 61, 0.2);
+  --shadow-md: 0 2px 4px rgba(20, 33, 61, 0.05), 0 16px 28px -14px rgba(20, 33, 61, 0.22), 0 40px 72px -34px rgba(20, 33, 61, 0.38);
+  --shadow-blue: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 2px 4px rgba(20, 33, 61, 0.18), 0 14px 26px -12px rgba(20, 33, 61, 0.55);
+  --shadow-gold: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 4px rgba(169, 132, 62, 0.2), 0 14px 26px -12px rgba(169, 132, 62, 0.6);
 }
 
 * { box-sizing: border-box; }
@@ -1638,6 +1641,128 @@ p a { transition: color 0.2s ease; }
 /* ---------- Utility ---------- */
 .mt-0 { margin-top: 0; }
 .text-center { text-align: center; }
+
+/* ==========================================================================
+   Elevation pass - depth through layering rather than more decoration:
+   tonal contrast between sections, surfaces that sit above them, and
+   light that comes from one direction (top-left) throughout.
+   ========================================================================== */
+
+/* Sections alternate between a lifted white plane and a warmer recessed one */
+section { position: relative; }
+.section-light {
+  background:
+    radial-gradient(60% 50% at 100% 0%, rgba(198, 161, 91, 0.1), transparent 70%),
+    linear-gradient(180deg, #ffffff 0%, #fbf8f1 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.section-tint {
+  background:
+    radial-gradient(50% 60% at 0% 0%, rgba(198, 161, 91, 0.2), transparent 70%),
+    radial-gradient(46% 56% at 100% 100%, rgba(20, 33, 61, 0.07), transparent 70%),
+    linear-gradient(180deg, #f6edd9 0%, #f1e6cd 100%);
+  box-shadow:
+    inset 0 14px 24px -18px rgba(20, 33, 61, 0.16),
+    inset 0 -14px 24px -18px rgba(20, 33, 61, 0.1);
+}
+.section-blue {
+  background:
+    radial-gradient(50% 70% at 12% 0%, rgba(198, 161, 91, 0.22), transparent 68%),
+    radial-gradient(46% 70% at 100% 100%, rgba(74, 98, 160, 0.4), transparent 70%),
+    linear-gradient(165deg, var(--blue-light), var(--blue) 45%, var(--blue-deep));
+  box-shadow: inset 0 18px 30px -20px rgba(0, 0, 0, 0.5);
+}
+
+/* Hero: a lit stage with the visual floating in front of it */
+.hero {
+  background:
+    radial-gradient(42% 60% at 82% 38%, rgba(198, 161, 91, 0.26), transparent 70%),
+    radial-gradient(40% 50% at 8% 0%, rgba(20, 33, 61, 0.08), transparent 70%),
+    linear-gradient(180deg, #fdfaf3 0%, var(--gold-tint) 100%);
+}
+.page-hero {
+  background:
+    radial-gradient(44% 80% at 88% 10%, rgba(198, 161, 91, 0.26), transparent 70%),
+    radial-gradient(40% 70% at 6% 100%, rgba(20, 33, 61, 0.08), transparent 70%),
+    linear-gradient(180deg, #fdfaf3 0%, var(--gold-tint) 100%);
+  box-shadow: 0 18px 36px -26px rgba(20, 33, 61, 0.35);
+  z-index: 1;
+}
+.hero-visual {
+  background: linear-gradient(155deg, #ffffff 0%, #fbf6ea 100%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    inset 0 1px 0 #ffffff,
+    0 0 0 1px rgba(198, 161, 91, 0.28),
+    0 4px 8px rgba(20, 33, 61, 0.05),
+    0 30px 50px -22px rgba(20, 33, 61, 0.32),
+    0 70px 110px -50px rgba(169, 132, 62, 0.6);
+}
+.hero-stats { position: relative; z-index: 2; }
+.hero-stats .container {
+  background: linear-gradient(180deg, #ffffff, #fdfaf4);
+  border-color: rgba(255, 255, 255, 0.9);
+  border-top-color: var(--gold);
+  box-shadow:
+    inset 0 1px 0 #ffffff,
+    0 0 0 1px rgba(20, 33, 61, 0.05),
+    0 20px 34px -18px rgba(20, 33, 61, 0.28),
+    0 50px 90px -40px rgba(20, 33, 61, 0.45);
+}
+.hero h1,
+.page-hero h1 { text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8), 0 14px 30px rgba(20, 33, 61, 0.14); }
+
+/* Raised surfaces: solid enough to read as objects, lit from above */
+.card,
+.staff-card,
+.contact-card,
+.min-item,
+.mass-card,
+.patron {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(253, 250, 244, 0.9));
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow: var(--glass-shadow), 0 0 0 1px rgba(20, 33, 61, 0.05);
+}
+.card,
+.staff-card { border-top-color: var(--gold); }
+.card:hover,
+.staff-card:hover,
+.contact-card:hover,
+.min-item:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--glass-shadow-hover), 0 0 0 1px rgba(198, 161, 91, 0.35);
+}
+.split-visual,
+.gallery-item,
+.map-wrap {
+  box-shadow:
+    0 4px 8px rgba(20, 33, 61, 0.06),
+    0 26px 44px -20px rgba(20, 33, 61, 0.36),
+    0 60px 100px -48px rgba(20, 33, 61, 0.5);
+}
+.cta-band {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 30px 60px -28px rgba(0, 0, 0, 0.6);
+}
+.notice {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 14px 28px -18px rgba(169, 132, 62, 0.5);
+}
+
+/* Buttons: a soft top highlight and a real drop, pressing in when clicked */
+.btn-primary,
+.btn-visit { background: linear-gradient(180deg, var(--blue-light), var(--blue)); }
+.btn-gold { background: linear-gradient(180deg, var(--gold-soft), var(--gold)); }
+.btn-outline-dark {
+  background: linear-gradient(180deg, #ffffff, #fbf7ee);
+  box-shadow: inset 0 1px 0 #ffffff, 0 8px 16px -10px rgba(20, 33, 61, 0.3);
+}
+.btn:hover { transform: translateY(-3px); }
+.btn:active { transform: translateY(1px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover, .staff-card:hover, .contact-card:hover, .min-item:hover, .btn:hover, .btn:active { transform: none; }
+}
 
 /* ---------- Responsive ---------- */
 @media (max-width: 980px) {
