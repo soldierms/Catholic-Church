@@ -1,0 +1,20 @@
+name: Keep Supabase awake
+
+# Supabase free projects pause after ~1 week of inactivity.
+# This pings the database twice a week so it never pauses.
+on:
+  schedule:
+    - cron: "17 9 * * 1,4"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query the events table
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" -m 30 \
+            "https://dquelwoywgbbpqbovifd.supabase.co/rest/v1/events?select=id&limit=1" \
+            -H "apikey: sb_publishable_LZmQRn33VWbD5GKafVmcxg_bMw7xMzJ")
+          echo "Supabase responded: $code"
+          test "$code" = "200"
